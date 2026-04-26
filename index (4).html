@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a1a1a">
+<title>Skincare Mayo 2026 — Fabián</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --bg-primary: #0d0d0f;
+  --bg-secondary: #1a1a1d;
+  --bg-tertiary: #232327;
+  --text-primary: #ededed;
+  --text-secondary: #a0a0a8;
+  --text-tertiary: #6e6e76;
+  --border: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.16);
+  --info-bg: rgba(55, 138, 221, 0.12);
+  --info-text: #85B7EB;
+  --warning-bg: rgba(239, 159, 39, 0.12);
+  --warning-text: #FAC775;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 16px 12px 40px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 720px; margin: 0 auto; }
+
+h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.lg-item { display: flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 6px; background: var(--bg-secondary); border: 1px solid var(--border); font-size: 11px; }
+.lg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 16px; }
+.dh { text-align: center; font-size: 10px; font-weight: 600; color: var(--text-secondary); padding: 6px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+.day { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 6px 4px; min-height: 110px; display: flex; flex-direction: column; gap: 3px; }
+.day.empty { background: transparent; border: none; }
+
+.dn { font-size: 12px; font-weight: 600; padding: 0 2px 2px; color: var(--text-primary); }
+
+.tag {
+  font-size: 9.5px;
+  padding: 3px 4px;
+  border-radius: 4px;
+  line-height: 1.2;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.12s, opacity 0.12s;
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+.tag:active { transform: scale(0.95); opacity: 0.8; }
+.tag-am { background: #FAC775; color: #412402; }
+.tag-retinol { background: #F0997B; color: #4A1B0C; }
+.tag-rep { background: #AFA9EC; color: #26215C; }
+.tag-minox { background: #97C459; color: #173404; }
+.tag-iraltone { background: #5DCAA5; color: #04342C; }
+.tag-start { background: #FAC775; color: #412402; font-weight: 700; }
+.tag-rest { background: var(--bg-tertiary); color: var(--text-tertiary); cursor: default; }
+.tag-rest:active { transform: none; opacity: 1; }
+
+.tip-card { padding: 12px 14px; border-radius: 8px; background: var(--info-bg); color: var(--info-text); font-size: 12px; line-height: 1.5; border: 1px solid rgba(55, 138, 221, 0.2); }
+
+/* MODAL */
+.modal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 100;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  animation: fadeIn 0.2s ease;
+}
+.modal-bg.show { display: flex; }
+.modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: 16px 16px 0 0;
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px 22px 32px;
+  animation: slideUp 0.25s ease;
+}
+@media (min-width: 600px) {
+  .modal-bg { align-items: center; padding: 20px; }
+  .modal { border-radius: 16px; max-height: 80vh; }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-grip { width: 40px; height: 4px; background: var(--border-strong); border-radius: 2px; margin: -8px auto 14px; }
+@media (min-width: 600px) { .modal-grip { display: none; } }
+
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.modal-title { font-size: 16px; font-weight: 600; margin: 0; }
+.modal-close { background: var(--bg-tertiary); border: none; font-size: 18px; line-height: 1; color: var(--text-primary); cursor: pointer; padding: 6px 12px; border-radius: 6px; }
+.modal-close:active { background: var(--border-strong); }
+
+.modal-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; padding: 6px 10px; border-radius: 6px; background: var(--bg-tertiary); display: inline-block; }
+
+.step { display: grid; grid-template-columns: 50px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.step:last-child { border-bottom: none; }
+.step-t { color: var(--text-secondary); font-weight: 600; font-variant-numeric: tabular-nums; }
+.step-p { color: var(--text-primary); line-height: 1.4; }
+.step-p small { display: block; color: var(--text-tertiary); font-size: 11px; margin-top: 3px; line-height: 1.4; }
+
+.modal-tip { margin-top: 14px; padding: 10px 12px; border-radius: 8px; background: var(--warning-bg); color: var(--warning-text); font-size: 12px; line-height: 1.5; border: 1px solid rgba(239, 159, 39, 0.2); }
+
+@media (max-width: 380px) {
+  body { padding: 12px 8px; }
+  .day { min-height: 100px; padding: 5px 3px; }
+  .tag { font-size: 9px; padding: 3px 3px; }
+  .dn { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Mayo 2026 · Skincare</h1>
+  <p class="subtitle">Toca cualquier bloque de color para ver hora exacta, paso y producto.</p>
+
+  <div class="legend">
+    <span class="lg-item"><span class="lg-dot" style="background:#FAC775"></span>Mañana</span>
+    <span class="lg-item"><span class="lg-dot" style="background:#F0997B"></span>Retinol</span>
+    <span class="lg-item"><span class="lg-dot" style="background:#AFA9EC"></span>Reparación</span>
+    <span class="lg-item"><span class="lg-dot" style="background:#97C459"></span>Minoxidil</span>
+    <span class="lg-item"><span class="lg-dot" style="background:#5DCAA5"></span>Iraltone</span>
+  </div>
+
+  <div class="cal-grid" id="calGrid">
+    <div class="dh">Lun</div><div class="dh">Mar</div><div class="dh">Mié</div><div class="dh">Jue</div><div class="dh">Vie</div><div class="dh">Sáb</div><div class="dh">Dom</div>
+  </div>
+
+  <div class="tip-card">
+    💡 Cada bloque de color es clickeable. La rutina de mañana es igual todos los días — toca el bloque amarillo de cualquier día para verla.
+  </div>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-grip"></div>
+    <div class="modal-head">
+      <p class="modal-title" id="modalTitle">Detalle</p>
+      <button class="modal-close" id="closeBtn">×</button>
+    </div>
+    <span class="modal-sub" id="modalSub">Mayo</span>
+    <div id="modalBody"></div>
+    <div class="modal-tip" id="modalTip" style="display:none"></div>
+  </div>
+</div>
+
+<script>
+const rutinaManana = {
+  title: '☀️ Rutina mañana',
+  sub: '6:00 a 6:30 AM — todos los días',
+  steps: [
+    {t:'6:00', p:'Limpieza facial', d:'SVR Spirial Deo Douche · masaje circular 60 seg, enjuague tibio'},
+    {t:'6:05', p:'Niacinamida 10% + Zinc', d:'2-3 gotas en piel mojada · esperar 1 min'},
+    {t:'6:08', p:'Hyaluronic Acid 2% + B5', d:'3-4 gotas · presionar para penetración · esperar 2 min'},
+    {t:'6:12', p:'Vitamina C 23% + HA', d:'2-3 gotas masaje descendente · esperar 5 min antes del SPF'},
+    {t:'6:18', p:'Cafeína 5% contorno', d:'1-2 gotitas con dedo anular en párpado inferior'},
+    {t:'6:22', p:'Hidratante Beta Glucan', d:'Sella todo lo anterior · masaje ascendente'},
+    {t:'6:27', p:'ISDIN Fusion Waer SPF 50+', d:'1/4 cdita para cara · esperar 15 min antes de salir'}
+  ],
+  tip: '⚠️ El SPF es OBLIGATORIO. Sin él el retinol genera manchas permanentes.'
+};
+
+const nocheRetinol = {
+  title: '🌙 Noche retinol',
+  sub: '9:00 PM — máxima potencia antiedad',
+  steps: [
+    {t:'9:00', p:'Limpieza profunda', d:'SVR Spirial · doble limpieza si saliste con SPF'},
+    {t:'9:05', p:'HA 2% + B5 (buffer)', d:'4-5 gotas en piel HÚMEDA · reduce irritación 60%'},
+    {t:'9:10', p:'Retinol 0.5%', d:'2-3 gotas en piel SECA · NO ojos ni labios · esperar 20 min'},
+    {t:'9:32', p:'Hidratante Beta Glucan', d:'Cantidad generosa · sella el retinol'},
+    {t:'9:35', p:'Multi-Peptide + HA', d:'1-2 gotas cara y cuello · síntesis de colágeno nocturno'},
+    {t:'9:40', p:'Minoxidil 5% (barba)', d:'1 ml con gotero · masaje 2-3 min · 4 horas SIN LAVAR'}
+  ],
+  tip: '⚠️ Piel COMPLETAMENTE seca antes del retinol. Si pica fuerte, reduce frecuencia.'
+};
+
+const nocheReparacion = {
+  title: '🌙 Noche reparación',
+  sub: '9:00 PM — sin retinol, regeneración',
+  steps: [
+    {t:'9:00', p:'Limpieza facial', d:'SVR Spirial Deo Douche'},
+    {t:'9:05', p:'Niacinamida 10% + Zinc', d:'2-3 gotas en piel mojada'},
+    {t:'9:08', p:'HA 2% + B5', d:'3-4 gotas · esperar 2 min'},
+    {t:'9:12', p:'Multi-Peptide + HA', d:'2-3 gotas cara y cuello'},
+    {t:'9:15', p:'Hidratante Beta Glucan', d:'Sella todo lo anterior'}
+  ],
+  tip: '✅ Noche de regeneración: piel descansa del retinol, péptidos trabajan.'
+};
+
+const minoxidilDetalle = {
+  title: '🧔 Minoxidil barba',
+  sub: '9:20-9:40 PM (después de skincare)',
+  steps: [
+    {t:'—', p:'Producto', d:'Minoxidil 5% Kirkland · 1 ml con gotero incluido'},
+    {t:'—', p:'Zona', d:'Barba completa, mejillas, barbilla, línea de mandíbula'},
+    {t:'—', p:'Técnica', d:'Masaje suave 2-3 minutos hasta absorber'},
+    {t:'—', p:'Espera', d:'4 HORAS sin lavar la zona (penetración máxima)'},
+    {t:'—', p:'Frecuencia', d:'Lunes, Martes, Viernes, Sábado (4×/semana alternos)'}
+  ],
+  tip: '💡 Truco: dermaroller 0.5mm 1 hora antes aumenta absorción 40%.'
+};
+
+const iraltoneDetalle = {
+  title: '🚿 Iraltone champú',
+  sub: 'En ducha — antes de skincare nocturno',
+  steps: [
+    {t:'—', p:'Producto', d:'Iraltone Champú Sebo-Regulador 200ml (Cantabria Labs)'},
+    {t:'—', p:'Cantidad', d:'Moneda (tamaño)'},
+    {t:'—', p:'Técnica', d:'Masaje en cuero cabelludo 60 seg · enjuague abundante'},
+    {t:'—', p:'Frecuencia', d:'Lunes, Miércoles, Viernes (alterno)'},
+    {t:'—', p:'Función', d:'Regulador sebáceo + control foliculitis nuca'}
+  ],
+  tip: 'ℹ️ Lo prescribió tu dermátologo. No lo uses diario, alterno está perfecto.'
+};
+
+const inicioDetalle = {
+  title: '🚀 Día de inicio',
+  sub: '1 mayo — comienzo del protocolo',
+  steps: [
+    {t:'AM', p:'Empieza rutina mañana', d:'Los 7 pasos completos desde las 6:00 AM'},
+    {t:'PM', p:'Empieza noche reparación', d:'Sin retinol primer día (espera al sábado 2)'},
+    {t:'PM', p:'Iraltone primera vez', d:'Champú en ducha'},
+    {t:'PM', p:'Minoxidil primera vez', d:'1 ml masaje 3 min · si pica = normal'}
+  ],
+  tip: '🎯 Compromiso: consistencia diaria por 12 semanas. Resultados visibles desde semana 3.'
+};
+
+const days = [
+  {n:1, type:'rep', minox:true, ira:true, special:'inicio'},
+  {n:2, type:'retinol', minox:true, ira:false, retinolNum:1},
+  {n:3, type:'rep', minox:false, ira:false},
+  {n:4, type:'rep', minox:true, ira:true},
+  {n:5, type:'retinol', minox:true, ira:false},
+  {n:6, type:'rep', minox:false, ira:true},
+  {n:7, type:'retinol', minox:true, ira:false},
+  {n:8, type:'rep', minox:true, ira:true},
+  {n:9, type:'retinol', minox:true, ira:false, retinolNum:2},
+  {n:10, type:'rep', minox:false, ira:false},
+  {n:11, type:'rep', minox:true, ira:true},
+  {n:12, type:'retinol', minox:true, ira:false},
+  {n:13, type:'rep', minox:false, ira:true},
+  {n:14, type:'retinol', minox:true, ira:false, retinolNum:3},
+  {n:15, type:'rep', minox:true, ira:true},
+  {n:16, type:'retinol', minox:true, ira:false},
+  {n:17, type:'rep', minox:false, ira:false},
+  {n:18, type:'rep', minox:true, ira:true},
+  {n:19, type:'retinol', minox:true, ira:false},
+  {n:20, type:'rep', minox:false, ira:true},
+  {n:21, type:'retinol', minox:true, ira:false},
+  {n:22, type:'rep', minox:true, ira:true},
+  {n:23, type:'retinol', minox:true, ira:false},
+  {n:24, type:'rep', minox:false, ira:false},
+  {n:25, type:'rep', minox:true, ira:true},
+  {n:26, type:'retinol', minox:true, ira:false},
+  {n:27, type:'rep', minox:false, ira:true},
+  {n:28, type:'retinol', minox:true, ira:false},
+  {n:29, type:'rep', minox:true, ira:true},
+  {n:30, type:'retinol', minox:true, ira:false},
+  {n:31, type:'rep', minox:false, ira:false}
+];
+
+const grid = document.getElementById('calGrid');
+for (let i = 0; i < 4; i++) {
+  const e = document.createElement('div');
+  e.className = 'day empty';
+  grid.appendChild(e);
+}
+
+days.forEach(d => {
+  const el = document.createElement('div');
+  el.className = 'day';
+  let html = `<div class="dn">${d.n}</div>`;
+  html += `<div class="tag tag-am" data-action="manana">Mañana</div>`;
+  if (d.special === 'inicio') {
+    html += `<div class="tag tag-start" data-action="inicio">INICIO</div>`;
+  }
+  if (d.type === 'retinol') {
+    const label = d.retinolNum ? `Retinol ${d.retinolNum}×` : 'Retinol';
+    html += `<div class="tag tag-retinol" data-action="retinol">${label}</div>`;
+  } else {
+    html += `<div class="tag tag-rep" data-action="reparacion">Reparación</div>`;
+  }
+  if (d.minox) {
+    html += `<div class="tag tag-minox" data-action="minoxidil">Minoxidil</div>`;
+  } else {
+    html += `<div class="tag tag-rest">Descansa</div>`;
+  }
+  if (d.ira) {
+    html += `<div class="tag tag-iraltone" data-action="iraltone">Iraltone</div>`;
+  }
+  el.innerHTML = html;
+  el.querySelectorAll('.tag[data-action]').forEach(t => {
+    t.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      openDetail(t.getAttribute('data-action'), d.n);
+    });
+  });
+  grid.appendChild(el);
+});
+
+function openDetail(action, dayNum) {
+  const map = {
+    manana: rutinaManana,
+    retinol: nocheRetinol,
+    reparacion: nocheReparacion,
+    minoxidil: minoxidilDetalle,
+    iraltone: iraltoneDetalle,
+    inicio: inicioDetalle
+  };
+  const detail = map[action];
+  if (!detail) return;
+  document.getElementById('modalTitle').textContent = detail.title;
+  document.getElementById('modalSub').textContent = `${dayNum} mayo · ${detail.sub}`;
+  const body = document.getElementById('modalBody');
+  body.innerHTML = '';
+  detail.steps.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'step';
+    div.innerHTML = `<div class="step-t">${s.t}</div><div class="step-p">${s.p}<small>${s.d}</small></div>`;
+    body.appendChild(div);
+  });
+  const tipEl = document.getElementById('modalTip');
+  if (detail.tip) {
+    tipEl.textContent = detail.tip;
+    tipEl.style.display = 'block';
+  } else {
+    tipEl.style.display = 'none';
+  }
+  document.getElementById('modalBg').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('closeBtn').addEventListener('click', closeModal);
+document.getElementById('modalBg').addEventListener('click', closeModal);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
